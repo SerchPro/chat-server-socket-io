@@ -2,18 +2,26 @@ const { response } = require("express");
 
 
 const create_user = async(req, res = response) =>{
+    const {email, password} = req.body;
+
     res.json({
         ok:true,
-        msg:'new'
+        msg:'new',
+        email, 
+        password,
     });
 }
 
 
 const login = async(req, res = response) => {
+    
+    const {email, password} = req.body;
 
     res.json({
         ok:true,
-        msg:'logged'
+        msg:'logged',
+        email, 
+        password,
     });
 }
 
