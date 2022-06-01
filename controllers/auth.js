@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs/dist/bcrypt");
 const { response } = require("express");
 const User = require("../models/user");
 
@@ -16,12 +17,17 @@ const create_user = async(req, res = response) =>{
         }
 
         const user = new User(req.body);
+
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync( password, salt );
         await user.save();
 
         res.json({
             ok:true,
             user
         });
+
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
