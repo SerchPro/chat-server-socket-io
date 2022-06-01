@@ -56,7 +56,7 @@ const login = async(req, res = response) => {
             return res.status(404).json({
                 ok: false,
                 msg: "email or password are incorrect"
-            })
+            });
         }
 
 
@@ -83,26 +83,37 @@ const login = async(req, res = response) => {
         res.status(500).json({
             ok: false,
             msg: "something went wrong"
-        })
+        });
     }
 }
 
 
 const renew_token = async(req, res) => {
 
-    const uid = req.uid;
+    try {
+        const uid = req.uid;
 
-    //generate new token
-    const token = await generarJWT( uid );
+        //generate new token
+        const token = await generarJWT( uid );
+    
+        // get user by uid
+        const user = await User.findById( uid );
+    
+        res.json({
+            ok:true,
+            user,
+            token
+        });
 
-    // get user by uid
-    const user = await User.findById( uid );
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "something went wrong"
+        });
+    }
 
-    res.json({
-        ok:true,
-        user,
-        token
-    });
+
 }
 
 module.exports = {
