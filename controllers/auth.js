@@ -48,14 +48,43 @@ const create_user = async(req, res = response) =>{
 
 const login = async(req, res = response) => {
 
-    const {email, password} = req.body;
+    try {
+        const {name, email, password} = req.body;
 
-    res.json({
-        ok:true,
-        msg:'logged',
-        email, 
-        password,
-    });
+        const userdb = await User.findOne({email});
+        if(!userdb){
+            return res.status(404).json({
+                ok: false,
+                msg: "email or password are incorrect"
+            })
+        }
+
+
+        const validPassword = bcrypt.compareSync(password, userdb.password);
+        if(!validPassword){
+            return res.status(404).json({
+                ok: false,
+                msg: "email or password are incorrect"
+            })
+        }
+
+
+        const token = await generarJWT(userdb.id)
+
+        res.json({
+            ok:true,
+            userdb,
+            token
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "something went wrong"
+        })
+    }
 }
 
 
