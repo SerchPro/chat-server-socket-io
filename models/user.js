@@ -9,13 +9,13 @@ const UserSchema = Schema({
     email:{
         type: String,
         required: trusted,
-        uniquie: true
+        unique: true
     },
     password:{
         type: String,
         required: true
     },
-    password:{
+    online:{
         type: Boolean,
         default: false
     }
