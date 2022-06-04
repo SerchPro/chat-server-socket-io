@@ -9,18 +9,30 @@ const connectedUser = async(uid) =>{
     await user.save();
 
     return user
-}
+};
 
 const offline = async(uid) => {
 
     const user = await User.findById(uid);
     user.online = false;
     await user.save();
-
     return user
+};
+
+const getUsers = async() => {
+
+    const users = await User
+        .find()
+        .sort('-online');
+
+    return users
 }
+
+
+
 
 module.exports = {
     connectedUser,
-    offline
-}
+    offline,
+    getUsers
+};
