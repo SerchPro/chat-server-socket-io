@@ -32,7 +32,8 @@ class Sockets {
 
             socket.on('disconnect', async() => {
                 console.log("disconnect client")
-                await offline(uid)
+                await offline(uid);
+                this.io.emit('users-list', await getUsers())
             }) ;
 
         });
