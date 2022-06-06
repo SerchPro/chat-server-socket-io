@@ -36,8 +36,9 @@ class Sockets {
             socket.on( 'personal-message', async ( payload ) => {
                 console.log( payload )
                 const message = await saveMessage( payload);
-
-                console.log(message)
+                console.log(message);
+                this.io.to( payload.to ).emit( 'personal-message', message );
+                this.io.to( payload.from ).emit( 'personal-message', message );
             })
 
             socket.on('disconnect', async() => {
