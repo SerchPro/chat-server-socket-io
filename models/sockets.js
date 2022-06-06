@@ -1,4 +1,4 @@
-const { connectedUser, offline, getUsers } = require("../controllers/sockets");
+const { connectedUser, offline, getUsers, saveMessage } = require("../controllers/sockets");
 const { checkJWT } = require("../helpers/jwt");
 
 
@@ -33,8 +33,11 @@ class Sockets {
             this.io.emit('users-list', await getUsers());
 
 
-            socket.on( 'personal-message', ( payload ) => {
+            socket.on( 'personal-message', async ( payload ) => {
                 console.log( payload )
+                const message = await saveMessage( payload);
+
+                console.log(message)
             })
 
             socket.on('disconnect', async() => {

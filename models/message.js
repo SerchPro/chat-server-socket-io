@@ -15,10 +15,6 @@ const MessageSchema = Schema({
     message:{
         type: String,
         required: true
-    },
-    password:{
-        type: Boolean,
-        default: false
     }
 },{
     timestamps: true
