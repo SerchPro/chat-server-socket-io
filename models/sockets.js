@@ -16,7 +16,7 @@ class Sockets {
             const [ correct, uid] = checkJWT( socket.handshake.query['x-token']);
 
             if(!correct){
-                console.log("unidentified socket ");
+                //console.log("unidentified socket ");
                 return socket.disconnect();
             }
 
@@ -26,7 +26,7 @@ class Sockets {
 
             socket.join( uid )
 
-            console.log("cliente conectado", uid);
+            //console.log("cliente conectado", uid);
 
             //emit all the users
 
@@ -34,15 +34,15 @@ class Sockets {
 
 
             socket.on( 'personal-message', async ( payload ) => {
-                console.log( payload )
+                //console.log( payload )
                 const message = await saveMessage( payload);
-                console.log(message);
+                //console.log(message);
                 this.io.to( payload.to ).emit( 'personal-message', message );
                 this.io.to( payload.from ).emit( 'personal-message', message );
             })
 
             socket.on('disconnect', async() => {
-                console.log("disconnect client")
+                //console.log("disconnect client")
                 await offline(uid);
                 this.io.emit('users-list', await getUsers())
             }) ;
