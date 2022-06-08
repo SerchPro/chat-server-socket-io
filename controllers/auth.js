@@ -22,7 +22,6 @@ const create_user = async(req, res = response) =>{
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync( password, salt );
         await user.save();
-        //console.log(user)
 
 
         const token = await generarJWT(user.id)

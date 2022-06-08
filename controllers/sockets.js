@@ -5,8 +5,10 @@ const Message = require("../models/message");
 const connectedUser = async(uid) =>{
 
     const user = await User.findById(uid);
-    user.online = true;
-    await user.save();
+    if (user ){
+        user.online = true;
+        await user.save();
+    } 
 
     return user
 };
@@ -15,7 +17,7 @@ const offline = async(uid) => {
 
     const user = await User.findById(uid);
     user.online = false;
-    await user.save();
+    await user?.save();
     return user
 };
 
